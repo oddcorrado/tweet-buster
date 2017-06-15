@@ -1,0 +1,23 @@
+Some quick design notes to keep my head clear...
+
+
+Objectives
+* Stream data from twitter filter on hashtag
+* That data goes into a node js server
+* The server then accepts client connections
+* Once a client is connected it exchanges data through socket.io
+* The client displays the tweets and the user can balst them
+* The client rendering/collision detection is done with pixijs
+
+Design choices - server
+* We'll use express js to give some structure to the project (connection
+management, maybe some cookies for best score, leaderboards, blablabla)
+* In case the project evovles into something else expressjs provides a simple
+but still extensible web framework
+* We'll use the streaming API for the connection to twitter as the server really
+acts as a dispatcher (streaming data flow from twitter to the clients)
+* We'll use user based authentication as the streamin API does not work with
+application based authentication
+* A twitter helper module available on npm is used to speed up developement
+time (simpled named twitter)
+* Socket.io allows to push very easily data from the server to the client(s)
