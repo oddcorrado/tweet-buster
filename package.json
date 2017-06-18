@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/oddcorrado/tweet-buster#readme",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "lodash": "^4.17.4",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
