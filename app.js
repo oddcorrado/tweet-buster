@@ -5,6 +5,7 @@ const debug = require('debug')('app')
 const app = express()
 const twitterClient = require('./lib/twitterClient')
 const _ = require('lodash')
+const config = require('./config')
 
 module.exports = app
 
@@ -25,7 +26,7 @@ app.use((req, res) => {
 
 // create the hashstream -- this will be moved just for quick test purpose
 debug('Starting hashstream')
-let hashStream = twitterClient.stream('statuses/filter', {track: '#trump'})
+let hashStream = twitterClient.stream('statuses/filter', {track: config.hashtag})
 hashStream.on('data', function(event) {
   // TODO just to make sure this is really a tweet, might need more insight later
   if(event && _.conformsTo(event, {id_str: _.isString, text: _.isString}))
