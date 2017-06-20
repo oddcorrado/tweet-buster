@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "watch-server": "nodemon server.js -i public"
+    "watch-server": "nodemon server.js -i public",
+    "build": "browserify public/main.js > public/build.js",
+    "watch-client": "watchify -v --debug public/main.js -o public/build.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "twitter": "^1.7.1"
   },
   "devDependencies": {
+    "browserify": "^14.4.0",
     "nodemon": "^1.11.0",
     "watchify": "^3.9.0"
   }
