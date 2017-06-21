@@ -2,6 +2,7 @@
 
 const express = require('express')
 const debug = require('debug')('app')
+const debugTweets = require('debug')('app:tweets')
 const app = express()
 const twitterClient = require('./lib/twitterClient')
 const socketioBroadcaster = require('./lib/socketioBroadcaster')
@@ -29,7 +30,7 @@ hashStream.on('data', function (event) {
   // TODO just to make sure this is really a tweet, might need more insight later
   if(event && _.conformsTo(event, {id_str: _.isString, text: _.isString}))
   {
-    debug(event.text)
+    debugTweets(event.text)
     // simply tell socketioCaster to broadcast the message
     socketioBroadcaster.broadcast(event.text)
   }
