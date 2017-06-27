@@ -7,6 +7,8 @@ class SlidingText {
     // ***********
     // horizontal speed
     let speed = (1 + Math.random() * 10) * (Math.random() > 0.5 ? 1 : -1)
+    // kill at next move
+    let doKill = false
 
     // private methods a la Crockford declared in the constructor
     // ***********
@@ -16,7 +18,8 @@ class SlidingText {
         this.text.x += speed
       }
       // very basic object removal, needs to be improved to take text width in to account
-      if (this.text.x > window.innerWidth
+      if (doKill
+        || this.text.x > window.innerWidth
         || this.text.x < -window.innerWidth ) {
         stage.removeChild(this.text)
       }
@@ -32,6 +35,10 @@ class SlidingText {
     // position it according to speed
     this.text.x = speed > 0 ? 0 : window.innerWidth
     this.text.y = Math.random() * window.innerHeight
+
+    // make it interactive to get mouse events and kill it on mouseup
+    this.text.interactive = true
+    this.text.mouseup = () => doKill = true
 
     // start to move
     move()
