@@ -3,26 +3,35 @@ const PIXI = require('pixi.js')
 const socket = io()
 const SlidingText = require('./components/SlidingText')
 const WaitingText = require('./components/WaitingText')
+const ScoreDisplay = require('./components/ScoreDisplay')
 
 // For now simply get the data from the socket and insert it into the page
 socket.on('sentence', (sentence) => {
   // kill the intro
   WaitingText.stop(stage, style)
   // only stage will reference the sliding text, it will be destroyed when it leaves the screen
-  new SlidingText(sentence, stage, style)
+  new SlidingText(sentence, stage, style, () => scoreDisplay && scoreDisplay.score(1))
 })
 
-
-// use the auto detect that automatically switches to WebGL or Canvas
-let renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.view)
-var stage = new PIXI.Container
-
-var style = new PIXI.TextStyle({
+let style = new PIXI.TextStyle({
   fontFamily: 'Arial',
   fontSize: 20,
   fill: '#ffffff',
 })
+
+let scoreStyle = new PIXI.TextStyle({
+  fontFamily: 'Arial',
+  fontSize: Math.min(window.innerWidth, window.innerHeight) / 2,
+  fill: '#ffffff'
+})
+
+// use the auto detect that automatically switches to WebGL or Canvas
+let renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight)
+document.body.appendChild(renderer.view)
+let stage = new PIXI.Container
+let scoreDisplay = new ScoreDisplay(stage, scoreStyle, window.innerWidth / 2, window.innerHeight / 2)
+
+
 
 
 function draw () {

@@ -5,7 +5,7 @@ const ExplodingText = require('./ExplodingText')
 // It simply instanciates a text on the canvas and males it flow left or right
 // the text is removed if gets out of the window bounds
 class SlidingText {
-  constructor (text, stage, style) {
+  constructor (text, stage, style, score) {
     // private members a la Crockford
     // ***********
     // horizontal speed
@@ -25,6 +25,9 @@ class SlidingText {
         || this.text.x > window.innerWidth
         || this.text.x < -window.innerWidth ) {
         if(doKill) {
+          if(score) {
+            score()
+          }
           new ExplodingText(text, stage, style, {x:this.text.x, y:this.text.y})
         }
         stage.removeChild(this.text)
