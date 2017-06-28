@@ -4,8 +4,12 @@ const PIXI = require('pixi.js')
 // it takes a text as input and explodes it in rotating letters
 class ExplodingText {
   constructor (text, stage, style, position, options) {
+    // grab the options
     options = options || {}
     options.duration = options.duration || 1000
+    options.precise = options.precise !== undefined ? options.precise : false
+    options.velocity = options.velocity || 10
+
     // private members a la Crockford
     // ***********
     // letter and metrics for font explosion
@@ -60,21 +64,23 @@ class ExplodingText {
         pixiLetter.anchor.x = 0.5
         pixiLetter.anchor.y = 0.5
         return { pixiLetter,
-          vx : 10 * (letter.textPos - 0.5),
-          vy : 10 * (Math.random() - 0.5),
+          vx : options.velocity * (letter.textPos - 0.5),
+          vy : options.velocity * (Math.random() - 0.5),
           vrot : Math.random() - 0.5}
       })
     }
 
     // move is called ot regulazr intervals every 16ms/60fps
     let move = () => {
+      // get each letter and move it according to is speed
       letters.forEach(letter => {
         letter.pixiLetter.x += letter.vx
         letter.pixiLetter.y += letter.vy
         letter.pixiLetter.rotation += letter.vrot
         letter.pixiLetter.alpha = ttl / options.duration
       })
-      // very basic object removal, needs to be improved to take text width in to account
+
+      // remove when dead
       if (ttl < 0 ) {
         letters.forEach(letter => stage.removeChild(letter.pixiLetter))
         letters = null
@@ -85,10 +91,19 @@ class ExplodingText {
       }
     }
 
+    // intialisation
+    // *************
     // measure text metrics
-    measureMetricsCoarse()
-    // create letters and azdd them to the stage
+    if(options.precise) {
+      measureMetricsPrecise()
+    } else {
+      measureMetricsCoarse()
+    }
+
+    // create letters and add them to the stage
+    // TODO check if we can optimize with ParticleContainer
     createLetters()
+
     // start to move
     move()
   }
