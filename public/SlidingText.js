@@ -1,3 +1,6 @@
+const PIXI = require('pixi.js')
+const ExplodingText = require('./ExplodingText')
+
 // This is a basic test class to test the Pixi API
 // It simply instanciates a text on the canvas and males it flow left or right
 // the text is removed if gets out of the window bounds
@@ -21,6 +24,9 @@ class SlidingText {
       if (doKill
         || this.text.x > window.innerWidth
         || this.text.x < -window.innerWidth ) {
+        if(doKill) {
+          new ExplodingText(text, stage, style, {x:this.text.x, y:this.text.y})
+        }
         stage.removeChild(this.text)
       }
       else {
@@ -28,6 +34,8 @@ class SlidingText {
       }
     }
 
+    // intialisation
+    // *************
     // create and add the text to the stage
     this.text = new PIXI.Text(text, style)
     this.child = stage.addChild(this.text)
