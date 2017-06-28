@@ -1,8 +1,8 @@
 const io = require('socket.io-client')
 const PIXI = require('pixi.js')
 const socket = io()
-const SlidingText = require('./SlidingText')
-const ExplodingText = require('./ExplodingText')
+const SlidingText = require('./components/SlidingText')
+const ExplodingText = require('./components/ExplodingText')
 
 // For now simply get the data from the socket and insert it into the page
 socket.on('sentence', (sentence) => {
