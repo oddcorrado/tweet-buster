@@ -19,7 +19,7 @@ class PlayButton {
     playText.interactive = true
 
     // play has been pressed
-    playText.mouseup = () =>  {
+    playText.pointerdown = () =>  {
       if(isActive) {
         // call play callback and start to fade
         isActive = false

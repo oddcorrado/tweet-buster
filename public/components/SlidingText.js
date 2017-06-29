@@ -62,7 +62,7 @@ class SlidingText {
 
     // make it interactive to get mouse events and kill it on mouseup
     this.text.interactive = true
-    this.text.mouseup = () => doKill = true
+    this.text.pointerdown = () => doKill = true
 
     // start to move
     move()
