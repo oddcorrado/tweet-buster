@@ -5,7 +5,7 @@ const SlidingText = require('./components/SlidingText')
 const WaitingText = require('./components/WaitingText')
 const ScoreDisplay = require('./components/ScoreDisplay')
 const LifeManager = require('./components/LifeManager')
-
+const PlayButton = require('./components/PlayButton')
 
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',
@@ -19,13 +19,19 @@ const scoreStyle = new PIXI.TextStyle({
   fill: '#ffffff'
 })
 
+const playStyle = new PIXI.TextStyle({
+  fontFamily: 'Arial',
+  fontSize: Math.min(window.innerWidth, window.innerHeight) / 5,
+  fill: '#ffffff'
+})
+
 PIXI.loader
   .add("images/heart.png")
   .load(() => {setup()})
 
 // setup is called once all PIXI assets ahve been loaded
 let setup = () => {
-  let isGameOver = false
+  let isGameOver = true
 
   let slidingTexts = []
 
@@ -54,6 +60,13 @@ let setup = () => {
   let gameOver = () => {
     slidingTexts.forEach(elt => elt.destroy())
     isGameOver = true
+    playButton.reset()
+  }
+
+  let play = () => {
+    scoreDisplay.reset()
+    lifeManager.start()
+    isGameOver = false
   }
 
   // use the auto detect that automatically switches to WebGL or Canvas
@@ -66,9 +79,8 @@ let setup = () => {
   // create the scoreDisplay and lifeManger
   let scoreDisplay = new ScoreDisplay(stage, scoreStyle, window.innerWidth / 2, window.innerHeight / 2)
   let lifeManager = new LifeManager(stage, gameOver)
+  let playButton = new PlayButton(stage, playStyle, window.innerWidth / 2, window.innerHeight / 6, play)
 
-
-  lifeManager.start()
 
   // launch the game loop
   function draw () {

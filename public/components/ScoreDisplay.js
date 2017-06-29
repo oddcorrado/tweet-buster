@@ -23,7 +23,7 @@ class ScoreDisplay {
     // reset the score
     this.reset = () => {
       score = 0
-      this.scoreText.text = score
+      scoreText.text = score
     }
 
     // score some points
