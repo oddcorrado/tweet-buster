@@ -6,24 +6,7 @@ const WaitingText = require('./components/WaitingText')
 const ScoreDisplay = require('./components/ScoreDisplay')
 const LifeManager = require('./components/LifeManager')
 const PlayButton = require('./components/PlayButton')
-
-const style = new PIXI.TextStyle({
-  fontFamily: 'Arial',
-  fontSize: 20,
-  fill: '#ffffff',
-})
-
-const scoreStyle = new PIXI.TextStyle({
-  fontFamily: 'Arial',
-  fontSize: Math.min(window.innerWidth, window.innerHeight) / 2,
-  fill: '#ffffff'
-})
-
-const playStyle = new PIXI.TextStyle({
-  fontFamily: 'Arial',
-  fontSize: Math.min(window.innerWidth, window.innerHeight) / 5,
-  fill: '#ffffff'
-})
+const styles = require('./pixiStyles')
 
 PIXI.loader
   .add("images/heart.png")
@@ -39,31 +22,39 @@ let setup = () => {
   socket.on('sentence', (sentence) => {
     if(!isGameOver) {
       // kill the intro
-      WaitingText.stop(stage, style)
+      WaitingText.stop(stage, styles.style)
       // only stage will reference the sliding text, it will be destroyed when it leaves the screen
       slidingTexts.push(
-        new SlidingText(sentence, stage, style, score, lose)
+        new SlidingText(sentence, stage, styles.style, onScore, onLose)
       )
     }
   })
 
-  let score = (destroyed) => {
+  // this callback is called each time a tweet is hit
+  // => just update score
+  let onScore = (destroyed) => {
     slidingTexts = slidingTexts.filter(elt => elt !== destroyed)
     scoreDisplay.score(1)
   }
 
-  let lose = (destroyed) => {
+  // this callback is called when a tweet exits screen
+  // => forward to life manager
+  let onLose = (destroyed) => {
     slidingTexts = slidingTexts.filter(elt => elt !== destroyed)
     lifeManager.lose()
   }
 
-  let gameOver = () => {
+  // this callback is called when the game is over (i.e. nor more lives)
+  // => clean up stage and activate play button
+  let onGameOver = () => {
     slidingTexts.forEach(elt => elt.destroy())
     isGameOver = true
     playButton.reset()
   }
 
-  let play = () => {
+  // this callback is called when the play button is pressed
+  // => reset score display and start life manager
+  let onPlay = () => {
     scoreDisplay.reset()
     lifeManager.start()
     isGameOver = false
@@ -77,9 +68,9 @@ let setup = () => {
   let stage = new PIXI.Container
 
   // create the scoreDisplay and lifeManger
-  let scoreDisplay = new ScoreDisplay(stage, scoreStyle, window.innerWidth / 2, window.innerHeight / 2)
-  let lifeManager = new LifeManager(stage, gameOver)
-  let playButton = new PlayButton(stage, playStyle, window.innerWidth / 2, window.innerHeight / 6, play)
+  let scoreDisplay = new ScoreDisplay(stage,  styles.scoreStyle, window.innerWidth / 2, window.innerHeight / 2)
+  let lifeManager = new LifeManager(stage, onGameOver)
+  let playButton = new PlayButton(stage,  styles.playStyle, window.innerWidth / 2, window.innerHeight / 6, onPlay)
 
 
   // launch the game loop
@@ -90,5 +81,5 @@ let setup = () => {
 
   draw()
 
-  WaitingText.start(stage, style)
+  WaitingText.start(stage, styles.style)
 }
