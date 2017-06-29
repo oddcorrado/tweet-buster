@@ -48,6 +48,7 @@ let setup = () => {
   // => clean up stage and activate play button
   let onGameOver = () => {
     slidingTexts.forEach(elt => elt.destroy())
+    slidingTexts = []
     isGameOver = true
     playButton.reset()
   }
