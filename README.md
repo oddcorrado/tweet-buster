@@ -36,11 +36,11 @@ module.exports = {
 
 
 You can configure some of the app behaviour from the environment variables and/or by overriding settings in config/index.js, please note environment takes precedence over config file settings:
-1.  port number is configured in the SERVER_PORT environment variable
-2.  hashtag to filter is configured in the HASHTAG environment variable
+1.  port number is configured in the `SERVER_PORT` environment variable
+2.  hashtag to filter is configured in the `HASHTAG` environment variable
 
 Launch
 -------
 ```
-npm run
+npm run start
 ```
