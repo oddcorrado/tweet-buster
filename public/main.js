@@ -20,9 +20,9 @@ let setup = () => {
 
   // For now simply get the data from the socket and insert it into the page
   socket.on('sentence', (sentence) => {
+    // kill the intro
+    WaitingText.stop(stage, styles.style)
     if(!isGameOver) {
-      // kill the intro
-      WaitingText.stop(stage, styles.style)
       // only stage will reference the sliding text, it will be destroyed when it leaves the screen
       slidingTexts.push(
         new SlidingText(sentence, stage, styles.style, onScore, onLose)
