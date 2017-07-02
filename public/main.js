@@ -22,7 +22,7 @@ let setup = () => {
   socket.on('sentence', (sentence) => {
     // kill the intro
     WaitingText.stop(stage, styles.style)
-    if(!isGameOver) {
+    if(!isGameOver && slidingTexts.length <= (scoreDisplay.score / 10)) {
       // only stage will reference the sliding text, it will be destroyed when it leaves the screen
       slidingTexts.push(
         new SlidingText(sentence, stage, styles.style, onScore, onLose)
@@ -34,7 +34,7 @@ let setup = () => {
   // => just update score
   let onScore = (destroyed) => {
     slidingTexts = slidingTexts.filter(elt => elt !== destroyed)
-    scoreDisplay.score(1)
+    scoreDisplay.addScore(1)
   }
 
   // this callback is called when a tweet exits screen

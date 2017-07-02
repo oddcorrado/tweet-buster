@@ -10,7 +10,7 @@ class SlidingText {
     // private members a la Crockford
     // ***********
     // horizontal speed
-    let speed = (1 + Math.random() * 10) * (Math.random() > 0.5 ? 1 : -1)
+    let speed = (3 + Math.random() * 4) * (Math.random() > 0.5 ? 1 : -1)
     // kill at next move
     let doKill = false
     // Word and metrics for special fx

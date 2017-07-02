@@ -3,8 +3,8 @@ const PIXI = require('pixi.js')
 // simple score display with some basic fx
 class ScoreDisplay {
   constructor (stage, style, x, y, options) {
-    let score = 0
-    let scoreText = new PIXI.Text(score, style)
+    this.score = 0
+    let scoreText = new PIXI.Text(this.score, style)
 
     // get options and assign defaults if undefined
     options = options || {}
@@ -22,15 +22,15 @@ class ScoreDisplay {
     // ***********
     // reset the score
     this.reset = () => {
-      score = 0
-      scoreText.text = score
+      this.score = 0
+      scoreText.text = this.score
     }
 
     // score some points
-    this.score = (points) => {
+    this.addScore = (points) => {
       // update score, highligh and start to fade
-      score += points
-      scoreText.text = score
+      this.score += points
+      scoreText.text = this.score
       scoreText.alpha = 1
       alpha2scale()
       fade()

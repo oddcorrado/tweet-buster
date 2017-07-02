@@ -4,7 +4,7 @@ let introText = null
 let sentence = "WAITING FOR SERVER TO STREAM DATA..."
 
 let x = 100
-let y = 100
+let y = 30
 
 // This is a unique intro text that gets displayed on start and destroyed on stop
 class WaitingText {

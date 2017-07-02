@@ -2,7 +2,7 @@ const PIXI = require('pixi.js')
 
 const style = new PIXI.TextStyle({
   fontFamily: 'Arial',
-  fontSize: 20,
+  fontSize: 30,
   fill: '#ffffff',
 })
 
