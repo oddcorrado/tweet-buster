@@ -88,7 +88,13 @@ class SlidingText {
           if(score) {
             score(this)
           }
-          new ExplodingText(text, stage, style, {x:this.x, y:this.y})
+          let explodingWords = words.map(element => ({
+            word:element.word,
+            x: element.pixiWord.x,
+            y: element.pixiWord.y,
+            charPos: element.charPos
+          }))
+          new ExplodingText(explodingWords, stage, style, {x:this.x, y:this.y})
         }
         else {
           if(lose) {
@@ -108,7 +114,13 @@ class SlidingText {
     // ***********
     // destroy the object
     this.destroy = () => {
-      new ExplodingText(text, stage, style, {x:this.x, y:this.y})
+      let explodingWords = words.map(element => ({
+        word:element.word,
+        x: element.pixiWord.x,
+        y: element.pixiWord.y,
+        charPos: element.charPos
+      }))
+      new ExplodingText(explodingWords, stage, style, {x:this.x, y:this.y})
       words.forEach(word => {
         stage.removeChild(word.pixiWord)
       })

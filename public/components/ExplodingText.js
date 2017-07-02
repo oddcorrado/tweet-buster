@@ -3,7 +3,7 @@ const PIXI = require('pixi.js')
 // This is an exploding text
 // it takes a text as input and explodes it in rotating words
 class ExplodingText {
-  constructor (text, stage, style, position, options) {
+  constructor (words, stage, style, options) {
     // grab the options
     options = options || {}
     options.duration = options.duration || 1000
@@ -11,8 +11,6 @@ class ExplodingText {
 
     // private members a la Crockford
     // ***********
-    // Word and metrics for font explosion
-    let words = []
     // time to live of the effect in ms
     let ttl = options.duration
 
@@ -46,12 +44,12 @@ class ExplodingText {
       words = words.map(element => {
         let pixiWord = new PIXI.Text(element.word, style)
         stage.addChild(pixiWord)
-        pixiWord.x = position.x + element.x
-        pixiWord.y = position.y + element.y
+        pixiWord.x = element.x
+        pixiWord.y = element.y
         pixiWord.anchor.x = 0.5
         pixiWord.anchor.y = 0.5
         return { pixiWord,
-          vx : options.velocity * (element.textPos - 0.5),
+          vx : options.velocity * (element.charPos - 0.5),
           vy : options.velocity * (Math.random() - 0.5),
           vrot : 0.2*(Math.random() - 0.5)}
       })
@@ -80,11 +78,6 @@ class ExplodingText {
 
     // intialisation
     // *************
-    // measure text metrics
-    measureMetricsCoarse()
-
-    // create words and add them to the stage
-    // TODO check if we can optimize with ParticleContainer
     createWords()
 
     // start to move

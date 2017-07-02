@@ -1,5 +1,4 @@
 const PIXI = require('pixi.js')
-const ExplodingText = require('./ExplodingText')
 
 let introText = null
 let sentence = "WAITING FOR SERVER TO STREAM DATA..."
@@ -23,7 +22,6 @@ class WaitingText {
       return
     }
     stage.removeChild(introText)
-    new ExplodingText(sentence, stage, style, {x, y})
     introText = null
   }
 }
